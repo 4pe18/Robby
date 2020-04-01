@@ -31,30 +31,7 @@ public class ChatListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-            if (event.getAuthor().getIdLong() == 159985870458322944L) {
-                String msg = event.getMessage().getContentRaw();
-                msg = msg.replace(":XMARK6:", ":x:").replace(":CHECK6:", ":white_check_mark:");
-                if (event.getMessage().getEmbeds().size() == 0) {
-                    if (!msg.isEmpty()) event.getChannel().sendMessage(msg).queue();
-                } else {
-                    ArrayList<MessageEmbed> fromEmbeds = new ArrayList<>(event.getMessage().getEmbeds());
-                    ArrayList<MessageEmbed> embeds = new ArrayList<>(event.getMessage().getEmbeds());
-                    for (MessageEmbed embed : fromEmbeds) {
-                        EmbedBuilder eb = new EmbedBuilder(embed);
-                        eb.setColor(Color.orange);
-                        embeds.add(eb.build());
-                    }
-                    MessageAction a;
-                    if (!msg.isEmpty()) a = event.getChannel().sendMessage(msg);
-                    else {
-                        a = event.getChannel().sendMessage(embeds.get(0));
-                        embeds.remove(0);
-                    }
-                    for (MessageEmbed embed : embeds) a = a.embed(embed);
-                    a.queue();
-                }
-                event.getMessage().delete().queue();
-            }
+        if (event.getMessage().getContentRaw().equalsIgnoreCase("showthehollyfish")) event.getMessage().addReaction("superfish:694689673435676782").complete();
         if (event.getAuthor().isBot()) return;
         Message message = event.getMessage();
         String content = message.getContentRaw();
@@ -65,7 +42,7 @@ public class ChatListener extends ListenerAdapter {
             String label = args[0].replace("!", "");
             args = LangUtils.removeFromArray(args, 0);
             if (getInstance().getCommandManager().getCommand(label) == null) return;
-            getInstance().getCommandManager().getCommand(label).run(event.getGuild(), event.getChannel(), event.getGuild().getMember(event.getAuthor()), args);
+            getInstance().getCommandManager().getCommand(label).run(event.getMessage(), event.getGuild(), event.getChannel(), event.getMember(), args);
         }
 
     }

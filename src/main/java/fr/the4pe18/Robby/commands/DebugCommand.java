@@ -1,10 +1,7 @@
 package fr.the4pe18.Robby.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.*;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -16,7 +13,7 @@ public class DebugCommand extends AbstractCommand {
     }
 
     @Override
-    public void run(Guild guild, MessageChannel channel, Member sender, String[] args) {
+    public void run(Message message, Guild guild, MessageChannel channel, Member sender, String[] args) {
         EmbedBuilder eb = new EmbedBuilder();
         if (!sender.getRoles().contains(guild.getRoleById(687751019341283403L))) {
             eb.setTitle(":x: Erreur !", null);
@@ -35,8 +32,8 @@ public class DebugCommand extends AbstractCommand {
                 eb = new EmbedBuilder();
                 eb.setColor(role.getColor());
                 eb.setTitle(role.getName());
-                eb.setDescription("Nombre:"  + Integer.toString(guild.getMembersWithRoles(role).size()));
-                channel.sendMessage(eb.build()).queue();
+                eb.setDescription("Nombre:"  + guild.getMembersWithRoles(role).size());
+                channel.sendMessage(eb.build());
             }
         }
     }

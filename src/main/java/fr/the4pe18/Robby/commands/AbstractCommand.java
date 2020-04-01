@@ -2,6 +2,7 @@ package fr.the4pe18.Robby.commands;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public abstract class AbstractCommand {
@@ -15,12 +16,12 @@ public abstract class AbstractCommand {
         return CommandLabel;
     }
 
-    public abstract void run(Guild guild, MessageChannel channel, Member sender, String[] args);
+    public abstract void run(Message message, Guild guild, MessageChannel channel, Member sender, String[] args);
 
     public boolean checkPerm(Member member, Long... rolesid) {
         if (rolesid.length == 0) return false;
         boolean has = false;
-        for (Long id : rolesid) has = member.getRoles().contains(member.getGuild().getRoleById(id)) ? true:has;
+        for (Long id : rolesid) has = member.getRoles().contains(member.getGuild().getRoleById(id)) || has;
         return has;
     }
 }

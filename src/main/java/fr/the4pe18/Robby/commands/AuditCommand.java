@@ -16,7 +16,7 @@ public class AuditCommand extends AbstractCommand {
     }
 
     @Override
-    public void run(Guild guild, MessageChannel channel, Member sender, String[] args) {
+    public void run(Message message, Guild guild, MessageChannel channel, Member sender, String[] args) {
         EmbedBuilder eb = new EmbedBuilder();
         if (!sender.getRoles().contains(guild.getRoleById(687751019341283403L))) {
             eb.setTitle(":x: Erreur !", null);

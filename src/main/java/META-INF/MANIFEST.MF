@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: fr.the4pe18.Robby.Robby
-
