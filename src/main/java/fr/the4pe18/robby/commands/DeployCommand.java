@@ -1,6 +1,6 @@
 package fr.the4pe18.robby.commands;
 
-import fr.the4pe18.robby.deploy.patchs.ModoManageMsg_01;
+import fr.the4pe18.robby.deploy.old.patchs.ModoManageMsg_01;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;

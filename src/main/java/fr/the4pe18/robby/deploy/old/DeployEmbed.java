@@ -1,4 +1,4 @@
-package fr.the4pe18.robby.deploy;
+package fr.the4pe18.robby.deploy.old;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;

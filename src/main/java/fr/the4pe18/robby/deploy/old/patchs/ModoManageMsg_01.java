@@ -1,8 +1,8 @@
-package fr.the4pe18.robby.deploy.patchs;
+package fr.the4pe18.robby.deploy.old.patchs;
 
-import fr.the4pe18.robby.deploy.AbstractDeploy;
-import fr.the4pe18.robby.deploy.DeployEmbed;
-import fr.the4pe18.robby.deploy.DeployException;
+import fr.the4pe18.robby.deploy.old.RobbyDeploy;
+import fr.the4pe18.robby.deploy.old.DeployEmbed;
+import fr.the4pe18.robby.deploy.exceptions.DeployException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.PermissionOverride;
@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.managers.ChannelManager;
 
 import java.util.Objects;
 
-public final class ModoManageMsg_01 extends AbstractDeploy {
+public final class ModoManageMsg_01 extends RobbyDeploy {
 
     public ModoManageMsg_01() {
         super("ModoManageMsg_01");
