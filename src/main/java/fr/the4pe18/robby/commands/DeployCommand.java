@@ -1,6 +1,6 @@
 package fr.the4pe18.robby.commands;
 
-import fr.the4pe18.robby.deploy.old.patchs.ModoManageMsg_01;
+import fr.the4pe18.robby.old.deploy.patchs.OldModoManageMsg_01;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -32,7 +32,7 @@ public class DeployCommand extends AbstractCommand {
 
         } else {
             if (args.length >= 1 && args[0].equalsIgnoreCase("ModoManageMsg_01")) {
-                new ModoManageMsg_01().deploy(guild, channel, sender, args);
+                new OldModoManageMsg_01().deploy(guild, channel, sender, args);
             } else if (args.length >= 1 && args[0].equalsIgnoreCase("ClassCreator")) {
                 eb = new EmbedBuilder();
                 eb.setTitle(":diamond_shape_with_a_dot_inside: Déploiement... :diamond_shape_with_a_dot_inside:", null);

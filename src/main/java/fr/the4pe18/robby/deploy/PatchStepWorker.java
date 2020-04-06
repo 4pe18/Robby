@@ -1,6 +1,5 @@
 package fr.the4pe18.robby.deploy;
 
-import fr.the4pe18.robby.deploy.old.RobbyDeploy;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;

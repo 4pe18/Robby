@@ -1,9 +1,9 @@
-package fr.the4pe18.robby.deploy.old;
+package fr.the4pe18.robby.deploy;
 
 /**
  * @author 4PE18
  */
-public enum StepStatus {
+public enum PatchStepStatus {
     SUCCESS(":white_check_mark:", "SUCCESS!"),
     ERROR(":warning:", "ERROR"),
     FATAL_ERROR(":x:", "FATAL ERROR!"),
@@ -15,7 +15,7 @@ public enum StepStatus {
     private String emoji;
     private String statusText;
 
-    StepStatus(String emoji, String statusText) {
+    PatchStepStatus(String emoji, String statusText) {
         this.emoji = emoji;
         this.statusText = statusText;
     }

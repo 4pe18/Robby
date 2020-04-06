@@ -2,7 +2,7 @@ package fr.the4pe18.robby;
 
 import fr.the4pe18.robby.audit.AuditsManager;
 import fr.the4pe18.robby.commands.*;
-import fr.the4pe18.robby.deploy.old.PatchManager;
+import fr.the4pe18.robby.old.deploy.OldPatchManager;
 import fr.the4pe18.robby.events.ChatListener;
 import fr.the4pe18.robby.events.ReactionListener;
 import fr.the4pe18.robby.events.VocalListener;
@@ -45,7 +45,7 @@ public class Robby {
 
         this.auditsManager = new AuditsManager(this);
         this.commandManager = new CommandManager(this);
-        PatchManager patchManager = new PatchManager(this);
+        OldPatchManager patchManager = new OldPatchManager(this);
 
         //SpecialApril specialApril = new SpecialApril(this);
 

@@ -1,4 +1,4 @@
-package fr.the4pe18.robby.deploy.old;
+package fr.the4pe18.robby.old.deploy;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -7,8 +7,9 @@ import java.awt.*;
 
 /**
  * @author 4PE18
+ * @deprecated
  */
-public enum DeployEmbed {
+public enum OldDeployEmbed {
     DEPLOY_STARTING,
     STEP_STARTING,
     STEP_SUCCESS,

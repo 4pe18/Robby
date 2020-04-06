@@ -1,9 +1,9 @@
-package fr.the4pe18.robby.deploy.old;
+package fr.the4pe18.robby.old.deploy;
 
-import fr.the4pe18.robby.deploy.exceptions.DeployException;
-import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchFailedToLoadException;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
+import fr.the4pe18.robby.old.deploy.exceptions.OldDeployException;
+import fr.the4pe18.robby.old.deploy.exceptions.OldPatchFailedToLoadException;
+import fr.the4pe18.robby.old.deploy.exceptions.OldPatchNotLoadedException;
+import fr.the4pe18.robby.old.deploy.exceptions.OldPatchAlreadyLoadedException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -15,8 +15,9 @@ import java.util.HashMap;
  * Représente un patch deployable par Robby
  *
  * @author 4PE18
+ * @deprecated
  */
-public abstract class RobbyDeploy {
+public abstract class OldRobbyDeploy {
     private final String patchName;
 
     private Guild guild;
@@ -27,7 +28,7 @@ public abstract class RobbyDeploy {
 
     private Integer stepSize;
     private HashMap<Integer, String> steps;
-    private HashMap<Integer, StepStatus> stepStatuses;
+    private HashMap<Integer, OldStepStatus> stepStatuses;
     private Integer runningStep;
     private Message lastMessageStatus;
 
@@ -36,7 +37,7 @@ public abstract class RobbyDeploy {
      *
      * @param patchName le nom du patch
      */
-    public RobbyDeploy(String patchName) {
+    public OldRobbyDeploy(String patchName) {
         this.patchName = patchName;
         this.loaded = false;
         this.stepSize = 0;
@@ -49,9 +50,9 @@ public abstract class RobbyDeploy {
      * Méthode abstraite consitutée d'instructions step, qui contient
      * le "coeur" du patch
      *
-     * @throws DeployException
+     * @throws OldDeployException
      */
-    protected abstract void patch() throws DeployException;
+    protected abstract void patch() throws OldDeployException;
 
     /**
      * Permet d'appeler une étape du patch
@@ -61,9 +62,9 @@ public abstract class RobbyDeploy {
      * @param stepCore un objet DeployStep<T> qui met en oeuvre l'étape
      * @param <T> la classe traitée par l'étape en question
      * @return un objet <T> retournée par l'étape
-     * @throws DeployException
+     * @throws OldDeployException
      */
-    public <T> T step(boolean critical, String name, StepCore<T> stepCore) throws DeployException {
+    public <T> T step(boolean critical, String name, OldStepCore<T> stepCore) throws OldDeployException {
         if (!this.isLoaded()) this.getSteps().put(this.stepSize++, name);
         /**
         else {
@@ -81,19 +82,19 @@ public abstract class RobbyDeploy {
 
     }
 
-    public void load() throws PatchAlreadyLoadedException, PatchFailedToLoadException {
-        if (this.isLoaded()) throw new PatchAlreadyLoadedException(this.getPatchName());
+    public void load() throws OldPatchAlreadyLoadedException, OldPatchFailedToLoadException {
+        if (this.isLoaded()) throw new OldPatchAlreadyLoadedException(this.getPatchName());
         try {
             patch();
-        } catch (DeployException e) {
-            throw new PatchFailedToLoadException(this.getPatchName(), e);
+        } catch (OldDeployException e) {
+            throw new OldPatchFailedToLoadException(this.getPatchName(), e);
         }
         this.loaded = true;
     }
 
 
-    public void deploy(Guild guild, MessageChannel channel, Member sender, String[] args) throws PatchNotLoadedException {
-        if (!this.isLoaded()) throw new PatchNotLoadedException(this.getPatchName());
+    public void deploy(Guild guild, MessageChannel channel, Member sender, String[] args) throws OldPatchNotLoadedException {
+        if (!this.isLoaded()) throw new OldPatchNotLoadedException(this.getPatchName());
 
         this.guild = guild;
         this.channel = channel;
@@ -102,11 +103,11 @@ public abstract class RobbyDeploy {
         //channel.sendMessage(DeployEmbed.DEPLOY_STARTING.build(patchName)).complete();
 
         this.stepStatuses = new HashMap<>();
-        getSteps().keySet().forEach(i -> getStepStatuses().put(i, StepStatus.PENDING));
+        getSteps().keySet().forEach(i -> getStepStatuses().put(i, OldStepStatus.PENDING));
 
         try {
             patch();
-        } catch (DeployException e) {
+        } catch (OldDeployException e) {
             //channel.sendMessage(DeployEmbed.DEPLOY_FAILED.build(patchName, RobbyUtils.getExceptionTrace(e))).complete();
             return;
         }
@@ -137,16 +138,16 @@ public abstract class RobbyDeploy {
         return loaded;
     }
 
-    public Integer getStepSize() throws PatchNotLoadedException {
+    public Integer getStepSize() throws OldPatchNotLoadedException {
         if (this.isLoaded()) return stepSize;
-        throw new PatchNotLoadedException(this.getPatchName());
+        throw new OldPatchNotLoadedException(this.getPatchName());
     }
 
     public HashMap<Integer, String> getSteps() {
         return steps;
     }
 
-    public HashMap<Integer, StepStatus> getStepStatuses() {
+    public HashMap<Integer, OldStepStatus> getStepStatuses() {
         return stepStatuses;
     }
 

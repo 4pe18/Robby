@@ -1,19 +1,19 @@
-package fr.the4pe18.robby.deploy.old;
+package fr.the4pe18.robby.old.deploy;
 
-import fr.the4pe18.robby.deploy.old.RobbyDeploy;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 /**
  * Représente le coeur d'une étape d'un patch/déploiement Robby
- * @see RobbyDeploy
+ * @see OldRobbyDeploy
  *
  * @param <T> le type d'objet traité par l'étape
  *
  * @author 4PE18
+ * @deprecated
  */
-public interface StepCore<T> {
+public interface OldStepCore<T> {
 
     /**
      * Méthode de l'interface qui est éxécutée lors du déploiement
