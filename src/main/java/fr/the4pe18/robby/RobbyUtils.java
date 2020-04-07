@@ -13,7 +13,7 @@ import java.util.Locale;
  * @author 4PE18
  */
 public class RobbyUtils {
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yy hh:mm:ss", Locale.FRANCE).withZone(ZoneId.of("Europe/Paris"));
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy hh:mm:ss", Locale.FRANCE).withZone(ZoneId.of("Europe/Paris"));
 
     public static String getExceptionTrace(Exception e) {
         StringWriter stringWriter = new StringWriter();

@@ -6,6 +6,8 @@ import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyRegisteredException;
 import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
 import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
 import fr.the4pe18.robby.deploy.patchs.DemoPatch;
+import fr.the4pe18.robby.deploy.patchs.DemoPatch2;
+import fr.the4pe18.robby.deploy.patchs.ModoRespPerms;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -27,6 +29,8 @@ public class DeploymentManager {
 
     public void registerDefaultPatches() throws PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException {
         registerPatch(new DemoPatch(), true);
+        registerPatch(new DemoPatch2(), true);
+        registerPatch(new ModoRespPerms(), true);
     }
 
     public void registerPatch(RobbyPatch patch) throws PatchAlreadyRegisteredException {

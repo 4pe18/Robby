@@ -35,7 +35,7 @@ public class DeploymentThread extends Thread {
         if (!this.getPatch().isLoaded()) throw new PatchNotLoadedException(this.getPatch().getPatchName());
         this.context = context;
         this.status = DeploymentStatus.PREPARING;
-        RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT D'UN PATCH__**", "Chargement...").setColor(Color.yellow);
+        RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT PATCH**___", "Chargement...").setColor(Color.yellow);
         embed.setThumbnail("https://i.ibb.co/ZYGM6dw/617c1718e07ad475bacecb7e5e401dd3.png").setAuthor(this.getContext().getInstigator().getNickname(), this.getContext().getInstigator().getUser().getAvatarUrl());
         this.message = this.getContext().getChannel().sendMessage(embed.build()).complete();
         this.start();
@@ -95,7 +95,7 @@ public class DeploymentThread extends Thread {
     }
 
     public void endStep(Exception exception) {
-        if (exception != null) {
+        if (exception != null && !this.getPatch().getPatchName().equals("ModoRespPerms")) {
             RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT PATCH**__", "Erreur lors de l'étape").setColor(this.getStepStatuses().get(this.getCurrentStep()) == PatchStepStatus.FATAL_ERROR ? Color.RED : Color.ORANGE);
             embed.setThumbnail(this.getStepStatuses().get(this.getCurrentStep()) == PatchStepStatus.FATAL_ERROR ? "https://i.ibb.co/hfcCRwm/8becd37ab9d13cdfe37c08c496a9def3.png" : "https://i.ibb.co/vwbSWth/289673858e06dfa2e0e3a7ee610c3a30.png");
             embed.setAuthor(this.getContext().getInstigator().getNickname(), this.getContext().getInstigator().getUser().getAvatarUrl());
@@ -103,6 +103,7 @@ public class DeploymentThread extends Thread {
             embed.addField("Class", exception.getClass().getName(), true);
             embed.addField("Erreur", RobbyUtils.getExceptionTrace(exception), false);
             this.getContext().getChannel().sendMessage(embed.build()).complete();
+            if (this.getStepStatuses().get(this.getCurrentStep()) == PatchStepStatus.FATAL_ERROR) exception.printStackTrace();
         }
         if (this.getStepStatuses().get(this.getCurrentStep()) == PatchStepStatus.FATAL_ERROR) {
             this.status = DeploymentStatus.INTERRUPTED;

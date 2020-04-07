@@ -1,9 +1,6 @@
 package fr.the4pe18.robby.deploy;
 
-import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchDeploymentException;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchThreadNotDeploymentThreadException;
+import fr.the4pe18.robby.deploy.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +47,7 @@ public abstract class RobbyPatch {
             deploymentThread.updateCurrentStepStatus(PatchStepStatus.RUNNING);
             Exception exception = null;
             try {
+                worker.work(deploymentThread.getContext());
                 T obj = worker.work(deploymentThread.getContext());
                 deploymentThread.updateCurrentStepStatus(PatchStepStatus.SUCCESS);
                 deploymentThread.endStep(null);
@@ -57,7 +55,8 @@ public abstract class RobbyPatch {
             } catch (Exception e) {
                 if (critical) deploymentThread.updateCurrentStepStatus(PatchStepStatus.FATAL_ERROR);
                 else deploymentThread.updateCurrentStepStatus(PatchStepStatus.ERROR);
-                deploymentThread.endStep(new PatchDeploymentException(this.getPatchName(), e));
+                if (!(e instanceof PatchIgnoredException)) deploymentThread.endStep(new PatchDeploymentException(this.getPatchName(), e));
+                else deploymentThread.endStep(null);
             }
         }
         return null;
