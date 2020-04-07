@@ -1,5 +1,8 @@
 package fr.the4pe18.robby.commands;
 
+import fr.the4pe18.robby.Robby;
+import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
+import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
 import fr.the4pe18.robby.old.deploy.patchs.OldModoManageMsg_01;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -12,9 +15,15 @@ import java.util.Objects;
  * @author 4PE18
  */
 public class DeployCommand extends AbstractCommand {
+    private Robby instance;
 
-    public DeployCommand() {
+    public DeployCommand(Robby instance) {
         super("deploy");
+        this.instance = instance;
+    }
+
+    public Robby getInstance() {
+        return instance;
     }
 
     @Override
@@ -31,8 +40,35 @@ public class DeployCommand extends AbstractCommand {
             channel.sendMessage(eb.build()).queue();
 
         } else {
+            if (args.length >= 1) {
+                try {
+                    this.getInstance().getDeploymentManager().deploy(args[0], guild, channel, sender, args);
+                } catch (PatchNotRegisteredException e) {
+                    eb = new EmbedBuilder();
+                    eb.setTitle(":diamond_shape_with_a_dot_inside: ERREUR... :diamond_shape_with_a_dot_inside:", null);
+                    eb.setColor(Color.red);
+                    eb.setDescription("Le patch n'est pas enregistré!");
+                    eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
+                    channel.sendMessage(eb.build()).complete();
+                } catch (PatchNotLoadedException e) {
+                    eb = new EmbedBuilder();
+                    eb.setTitle(":diamond_shape_with_a_dot_inside: ERREUR... :diamond_shape_with_a_dot_inside:", null);
+                    eb.setColor(Color.red);
+                    eb.setDescription("Le patch n'est pas chargé!");
+                    eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
+                    channel.sendMessage(eb.build()).complete();
+                }
+            } else {
+                eb = new EmbedBuilder();
+                eb.setTitle(":x: Erreur !", null);
+                eb.setColor(Color.red);
+                eb.setDescription("Patch inconnu!");
+                eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
+                channel.sendMessage(eb.build()).queue();
+            }
+            /**
             if (args.length >= 1 && args[0].equalsIgnoreCase("ModoManageMsg_01")) {
-                new OldModoManageMsg_01().deploy(guild, channel, sender, args);
+                //new OldModoManageMsg_01().deploy(guild, channel, sender, args);
             } else if (args.length >= 1 && args[0].equalsIgnoreCase("ClassCreator")) {
                 eb = new EmbedBuilder();
                 eb.setTitle(":diamond_shape_with_a_dot_inside: Déploiement... :diamond_shape_with_a_dot_inside:", null);
@@ -261,7 +297,7 @@ public class DeployCommand extends AbstractCommand {
                 eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
                 channel.sendMessage(eb.build()).queue();
 
-            }
+            }**/
         }
     }
 }

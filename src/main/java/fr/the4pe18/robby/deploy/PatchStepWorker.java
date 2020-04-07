@@ -8,5 +8,5 @@ import net.dv8tion.jda.api.entities.MessageChannel;
  * @author 4PE18
  */
 public interface PatchStepWorker<T> {
-    T work(Guild guild, MessageChannel channel, Member sender, String[] args);
+    T work(DeploymentContext context) throws Exception;
 }

@@ -2,6 +2,10 @@ package fr.the4pe18.robby;
 
 import fr.the4pe18.robby.audit.AuditsManager;
 import fr.the4pe18.robby.commands.*;
+import fr.the4pe18.robby.deploy.DeploymentManager;
+import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyLoadedException;
+import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyRegisteredException;
+import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
 import fr.the4pe18.robby.old.deploy.OldPatchManager;
 import fr.the4pe18.robby.events.ChatListener;
 import fr.the4pe18.robby.events.ReactionListener;
@@ -23,6 +27,7 @@ import java.sql.SQLException;
 public class Robby {
     private CommandManager commandManager;
     private AuditsManager auditsManager;
+    private DeploymentManager deploymentManager;
 
     private JDA jdaInstance;
     private Connection connection;
@@ -32,7 +37,7 @@ public class Robby {
         return commandManager;
     }
 
-    public void start(String[] args) throws LoginException {
+    public void start(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException {
         if (args.length < 2) {
             System.err.println("Précissez le token du bot et le mot de passe mysql !");
             return;
@@ -45,23 +50,29 @@ public class Robby {
 
         this.auditsManager = new AuditsManager(this);
         this.commandManager = new CommandManager(this);
-        OldPatchManager patchManager = new OldPatchManager(this);
+        this.deploymentManager = new DeploymentManager(this);
+        this.getDeploymentManager().registerDefaultPatches();
+        //OldPatchManager patchManager = new OldPatchManager(this);
 
         //SpecialApril specialApril = new SpecialApril(this);
 
         getCommandManager().addCommand(new DebugCommand());
-        getCommandManager().addCommand(new DeployCommand());
+        getCommandManager().addCommand(new DeployCommand(this));
         getCommandManager().addCommand(new DevoirsCommand());
         getCommandManager().addCommand(new AuditCommand(getAuditsManager()));
         getCommandManager().addCommand(new ClearCommand());
         getCommandManager().addCommand(new LearnCommand());
+
         //getCommandManager().addCommand(new AprilCommand(specialApril));
+
         builder.addEventListeners(new ChatListener(this));
         builder.addEventListeners(new ReactionListener(this));
         builder.addEventListeners(new VocalListener(this));
+
         //builder.addEventListeners(specialApril);
         builder.setAutoReconnect(true);
         jdaInstance = builder.build();
+        //TODO ne pas oublier !!!
         //openConnection(args[1]);
         System.out.println("Robby by 4PE18 is running.");
         channel4pe18 = jdaInstance.openPrivateChannelById(266208886204137472L).complete();
@@ -83,12 +94,12 @@ public class Robby {
         return channel4pe18;
     }
 
-    public static void main(String[] args) throws LoginException, SQLException, ClassNotFoundException {
-        (new Robby()).start(args);
-    }
-
     public AuditsManager getAuditsManager() {
         return auditsManager;
+    }
+
+    public DeploymentManager getDeploymentManager() {
+        return deploymentManager;
     }
 
     public JDA getJdaInstance() {
@@ -97,5 +108,9 @@ public class Robby {
 
     public Connection getConnection() {
         return connection;
+    }
+
+    public static void main(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException {
+        (new Robby()).start(args);
     }
 }

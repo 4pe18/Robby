@@ -4,9 +4,9 @@ package fr.the4pe18.robby.deploy;
  * @author 4PE18
  */
 public enum PatchStepStatus {
-    SUCCESS(":white_check_mark:", "SUCCESS!"),
+    SUCCESS(":white_check_mark:", "SUCCESS"),
     ERROR(":warning:", "ERROR"),
-    FATAL_ERROR(":x:", "FATAL ERROR!"),
+    FATAL_ERROR(":x:", "FATAL ERROR"),
     RUNNING(":arrows_counterclockwise:", "RUNNING"),
     PENDING(":clock3:", "PENDING"),
     CANCELLED(":grey_exclamation:", "CANCELLED");
