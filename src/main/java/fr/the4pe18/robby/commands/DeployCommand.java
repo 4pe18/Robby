@@ -40,7 +40,7 @@ public class DeployCommand extends AbstractCommand {
             channel.sendMessage(eb.build()).queue();
 
         } else {
-            if (args.length >= 1) {
+            if (args.length > 0) {
                 try {
                     this.getInstance().getDeploymentManager().deploy(args[0], guild, channel, sender, args);
                 } catch (PatchNotRegisteredException e) {
