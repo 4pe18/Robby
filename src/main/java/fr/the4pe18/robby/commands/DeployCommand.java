@@ -42,6 +42,7 @@ public class DeployCommand extends AbstractCommand {
         } else {
             if (args.length > 0) {
                 try {
+                    message.delete().queue();
                     this.getInstance().getDeploymentManager().deploy(args[0], guild, channel, sender, args);
                 } catch (PatchNotRegisteredException e) {
                     eb = new EmbedBuilder();

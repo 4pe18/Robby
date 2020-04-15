@@ -62,6 +62,7 @@ public class Robby {
         getCommandManager().addCommand(new AuditCommand(getAuditsManager()));
         getCommandManager().addCommand(new ClearCommand());
         getCommandManager().addCommand(new LearnCommand());
+        getCommandManager().addCommand(new GourceCommand());
 
         //getCommandManager().addCommand(new AprilCommand(specialApril));
 

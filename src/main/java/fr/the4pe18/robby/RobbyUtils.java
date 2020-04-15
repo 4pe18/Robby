@@ -2,7 +2,9 @@ package fr.the4pe18.robby;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +26,10 @@ public class RobbyUtils {
 
     public static String getInstant() {
         return formatter.format(Instant.now());
+    }
+
+    public static void main(String[] args) {
+        System.out.println(OffsetDateTime.now().toEpochSecond());
     }
 
 }

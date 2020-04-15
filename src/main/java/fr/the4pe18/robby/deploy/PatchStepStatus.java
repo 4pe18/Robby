@@ -5,7 +5,7 @@ package fr.the4pe18.robby.deploy;
  */
 public enum PatchStepStatus {
     SUCCESS(":white_check_mark:", "SUCCESS"),
-    ERROR(":warning:", "ERROR"),
+    ERROR(":warning:", "WARN ERROR"),
     FATAL_ERROR(":x:", "FATAL ERROR"),
     RUNNING(":arrows_counterclockwise:", "RUNNING"),
     PENDING(":clock3:", "PENDING"),
