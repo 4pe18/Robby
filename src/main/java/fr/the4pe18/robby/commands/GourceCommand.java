@@ -72,7 +72,7 @@ public class GourceCommand extends AbstractCommand {
                     String oldValue = c.getOldValue();
                     String newValue = c.getNewValue();
                     assert oldValue != null;
-                    if (oldValue.equals(newValue)) line.append(author).append("M|e-school/channels/").append(oldValue).append(".channel");
+                    if (oldValue.equals(newValue)) line.append("M|e-school/channels/").append(oldValue).append(".channel");
                     else {
                         StringBuilder line2 = new StringBuilder(line.toString());
                         line.append("D|e-school/channels/").append(oldValue).append(".channel");

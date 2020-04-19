@@ -1,14 +1,18 @@
 package fr.the4pe18.robby.events;
 
 import fr.the4pe18.robby.Robby;
+import fr.the4pe18.robby.RobbyEmbed;
+import fr.the4pe18.robby.deploy.PatchStepStatus;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * @author 4PE18
@@ -26,22 +30,23 @@ public class ReactionListener extends ListenerAdapter {
 
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
-        //System.out.println(event.getReaction().getReactionEmote().getAsCodepoints());
         try {
-            if (Objects.requireNonNull(event.getGuild().getMember(Objects.requireNonNull(event.getUser()))).getRoles().contains(event.getGuild().getRoleById(689033973367570446L))) {
-                if (event.getChannel().getIdLong() == 689125601998929935L) {
+            if (event.getMember().getRoles().contains(event.getGuild().getRoleById(689033973367570446L))) {
+                if (event.getChannel().getIdLong() == 691957351288275055L || event.getChannel().getIdLong() == 689125601998929935L) {
                     if (event.getReaction().getReactionEmote().getEmoji().equalsIgnoreCase("✅")) {
-                        Message m = event.getChannel().retrieveMessageById(event.getMessageId()).complete();
-                        String message = m.getContentRaw() + "\n";
 
-                        EmbedBuilder eb = new EmbedBuilder();
-                        eb.setTitle(":white_check_mark: Support", null);
-                        eb.setColor(Color.green);
-                        eb.setDescription("Votre demande: \n" + message + " a été traitée par " + Objects.requireNonNull(event.getGuild().getMember(Objects.requireNonNull(event.getUser()))).getNickname() + ".\n*Merci de nous aider à améliorer le discord!*");
-                        eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
+                        Message message = event.getChannel().retrieveMessageById(event.getMessageId()).complete();
+                        //String message = m.getContentRaw() + "\n";
+                        //System.out.println(message);
 
-                        m.getAuthor().openPrivateChannel().complete().sendMessage(eb.build()).queue();
-                        m.delete().queue();
+                        RobbyEmbed embed = new RobbyEmbed("__**SUPPORT**__", "Demande traitée").setColor(Color.GREEN);
+                        embed.setAuthor(event.getGuild().getName(), event.getGuild().getIconUrl());
+                        embed.addField("Demande", message.getContentStripped(), false);
+                        embed.addField("Traitée par", event.getMember().getNickname(), true);
+                        embed.addField("Salon", event.getChannel().getName(), true);
+                        embed.setThumbnail("https://i.ibb.co/Ry7zpK4/212e30e47232be03033a87dc58edaa95.png");
+                        message.getAuthor().openPrivateChannel().queue(c -> c.sendMessage(embed.build()).queue(ign -> message.delete().queue()));
+
                     }
                 }
             }

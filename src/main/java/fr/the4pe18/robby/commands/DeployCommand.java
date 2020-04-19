@@ -1,6 +1,7 @@
 package fr.the4pe18.robby.commands;
 
 import fr.the4pe18.robby.Robby;
+import fr.the4pe18.robby.RobbyEmbed;
 import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
 import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
 import fr.the4pe18.robby.old.deploy.patchs.OldModoManageMsg_01;
@@ -28,45 +29,42 @@ public class DeployCommand extends AbstractCommand {
 
     @Override
     public void run(Message message, Guild guild, MessageChannel channel, Member sender, String[] args) {
-        EmbedBuilder eb;
-
         if (!sender.getRoles().contains(guild.getRoleById(687751019341283403L))) {
 
-            eb = new EmbedBuilder();
-            eb.setTitle(":x: Erreur !", null);
-            eb.setColor(Color.red);
-            eb.setDescription("Vous n'avez pas la permission d'executer cette commande!");
-            eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
-            channel.sendMessage(eb.build()).queue();
+            RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT**__", "Erreur !").setColor(Color.RED);
+            embed.setThumbnail("https://i.ibb.co/hfcCRwm/8becd37ab9d13cdfe37c08c496a9def3.png");
+            embed.addField("PERMISSION", "Vous n'avez pas la permission d'écécuter cette commande.", false);
+            channel.sendMessage(embed.build()).queue();
 
         } else {
             if (args.length > 0) {
                 try {
+
                     message.delete().queue();
                     this.getInstance().getDeploymentManager().deploy(args[0], guild, channel, sender, args);
+
                 } catch (PatchNotRegisteredException e) {
-                    eb = new EmbedBuilder();
-                    eb.setTitle(":diamond_shape_with_a_dot_inside: ERREUR... :diamond_shape_with_a_dot_inside:", null);
-                    eb.setColor(Color.red);
-                    eb.setDescription("Le patch n'est pas enregistré!");
-                    eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
-                    channel.sendMessage(eb.build()).complete();
+
+                    RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT**__", "Erreur !").setColor(Color.RED);
+                    embed.setThumbnail("https://i.ibb.co/hfcCRwm/8becd37ab9d13cdfe37c08c496a9def3.png");
+                    embed.addField("ENREGISTREMENT", "Le patch *" + args[0] + "* n'est pas enregistré!", false);
+                    channel.sendMessage(embed.build()).queue();
+
                 } catch (PatchNotLoadedException e) {
-                    eb = new EmbedBuilder();
-                    eb.setTitle(":diamond_shape_with_a_dot_inside: ERREUR... :diamond_shape_with_a_dot_inside:", null);
-                    eb.setColor(Color.red);
-                    eb.setDescription("Le patch n'est pas chargé!");
-                    eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
-                    channel.sendMessage(eb.build()).complete();
+
+                    RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT**__", "Erreur !").setColor(Color.RED);
+                    embed.setThumbnail("https://i.ibb.co/hfcCRwm/8becd37ab9d13cdfe37c08c496a9def3.png");
+                    embed.addField("CHARGEMENT", "Le patch *" + args[0] + "* n'est pas chargé!", false);
+                    channel.sendMessage(embed.build()).queue();
                 }
             } else {
-                eb = new EmbedBuilder();
-                eb.setTitle(":x: Erreur !", null);
-                eb.setColor(Color.red);
-                eb.setDescription("Patch inconnu!");
-                eb.setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
-                channel.sendMessage(eb.build()).queue();
+
+                RobbyEmbed embed = new RobbyEmbed("__**DÉPLOIEMENT**__", "Erreur !").setColor(Color.RED);
+                embed.setThumbnail("https://i.ibb.co/hfcCRwm/8becd37ab9d13cdfe37c08c496a9def3.png");
+                embed.addField("SYNTAXE", "!deploy **<patch>** [arguments...]", false);
+                channel.sendMessage(embed.build()).queue();
             }
+
             /**
             if (args.length >= 1 && args[0].equalsIgnoreCase("ModoManageMsg_01")) {
                 //new OldModoManageMsg_01().deploy(guild, channel, sender, args);

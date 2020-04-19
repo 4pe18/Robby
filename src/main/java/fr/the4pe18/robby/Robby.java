@@ -6,9 +6,9 @@ import fr.the4pe18.robby.deploy.DeploymentManager;
 import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyLoadedException;
 import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyRegisteredException;
 import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
-import fr.the4pe18.robby.old.deploy.OldPatchManager;
 import fr.the4pe18.robby.events.ChatListener;
 import fr.the4pe18.robby.events.ReactionListener;
+import fr.the4pe18.robby.events.SpecialBlindTest;
 import fr.the4pe18.robby.events.VocalListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -37,7 +37,7 @@ public class Robby {
         return commandManager;
     }
 
-    public void start(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException {
+    public void start(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException, SQLException {
         if (args.length < 2) {
             System.err.println("Précissez le token du bot et le mot de passe mysql !");
             return;
@@ -55,6 +55,7 @@ public class Robby {
         //OldPatchManager patchManager = new OldPatchManager(this);
 
         //SpecialApril specialApril = new SpecialApril(this);
+        SpecialBlindTest specialBlindTest = new SpecialBlindTest(this);
 
         getCommandManager().addCommand(new DebugCommand());
         getCommandManager().addCommand(new DeployCommand(this));
@@ -63,6 +64,7 @@ public class Robby {
         getCommandManager().addCommand(new ClearCommand());
         getCommandManager().addCommand(new LearnCommand());
         getCommandManager().addCommand(new GourceCommand());
+        getCommandManager().addCommand(new BlindTestCommand(specialBlindTest));
 
         //getCommandManager().addCommand(new AprilCommand(specialApril));
 
@@ -74,7 +76,7 @@ public class Robby {
         builder.setAutoReconnect(true);
         jdaInstance = builder.build();
         //TODO ne pas oublier !!!
-        //openConnection(args[1]);
+        openConnection(args[1]);
         System.out.println("Robby by 4PE18 is running.");
         channel4pe18 = jdaInstance.openPrivateChannelById(266208886204137472L).complete();
         getChannel4pe18().sendMessage("running <:reverse:695374058765680681> !").complete();
@@ -86,7 +88,7 @@ public class Robby {
         if (connection != null && !connection.isClosed()) return;
         synchronized (this) {
             if (connection != null && !connection.isClosed()) return;
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/robby", "root", pass);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/robby?serverTimezone=UTC", "root", pass);
             System.out.println("connected!");
         }
     }
@@ -111,7 +113,7 @@ public class Robby {
         return connection;
     }
 
-    public static void main(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException {
+    public static void main(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException, SQLException {
         (new Robby()).start(args);
     }
 }

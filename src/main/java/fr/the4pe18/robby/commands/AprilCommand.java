@@ -64,11 +64,4 @@ public class AprilCommand extends AbstractCommand {
             channel.sendMessage(eb.build()).queue();
         }
     }
-
-    private boolean canDelete(Member author, Member deleter) {
-        if (author == null) return true;
-        if (checkPerm(author, 693810529856258099L)) return checkPerm(deleter, 693810529856258099L);
-        if (checkPerm(author, 687751019341283403L)) return checkPerm(deleter, 693810529856258099L, 687751019341283403L);
-        return true;
-    }
 }
