@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +30,13 @@ public class ReactionListener extends ListenerAdapter {
     }
 
     @Override
+    public void onMessageReactionRemove(@NotNull MessageReactionRemoveEvent event) {
+        getInstance().getPollManager().proceedEvent(event);
+    }
+
+    @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
+        getInstance().getPollManager().proceedEvent(event);
         try {
             if (event.getMember().getRoles().contains(event.getGuild().getRoleById(689033973367570446L))) {
                 if (event.getChannel().getIdLong() == 691957351288275055L || event.getChannel().getIdLong() == 689125601998929935L) {

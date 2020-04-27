@@ -2,6 +2,7 @@ package fr.the4pe18.robby;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Array;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -50,12 +51,19 @@ public class RobbyUtils {
             }
             if (!opened) quotationArgs[argPos++] = arg.toString().replace("%quotation_mark%","\"");
         }
+        if (argPos==0) quotationArgs[0] = arg.toString().replace("%quotation_mark%","\"");
         return Arrays.stream(quotationArgs).filter(Objects::nonNull).filter(s -> !s.isEmpty()).toArray(String[]::new);
     }
 
-    public static void main(String[] args) {
-        String s = "bonjour \"je suis un morceau séparé\" \"un autre mor\"ceau\" \"ou celu\"i ci\" 32 \"ou encore \\\"bonjour\\\" voilà\"";
-        System.out.println(Arrays.toString(getQuotationArgs(s.split(" "))));
+    @SuppressWarnings("unchecked")
+    public static <T> T[] removeFromArray(T[] array, int index) {
+        if (array == null || index < 0 || index >= array.length) return array;
+        T[] newArray = (T[]) Array.newInstance(array.getClass().getComponentType(), array.length - 1);
+        for (int i = 0, k = 0; i < array.length; i++) {
+            if (i == index) continue;
+            newArray[k++] = array[i];
+        }
+        return newArray;
     }
 
 }

@@ -10,10 +10,13 @@ import fr.the4pe18.robby.events.ChatListener;
 import fr.the4pe18.robby.events.ReactionListener;
 import fr.the4pe18.robby.events.SpecialBlindTest;
 import fr.the4pe18.robby.events.VocalListener;
+import fr.the4pe18.robby.poll.PollManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.utils.Compression;
 
 import javax.security.auth.login.LoginException;
@@ -28,8 +31,9 @@ public class Robby {
     private CommandManager commandManager;
     private AuditsManager auditsManager;
     private DeploymentManager deploymentManager;
+    private PollManager pollManager;
 
-    private JDA jdaInstance;
+    private static JDA jdaInstance;
     private Connection connection;
     private PrivateChannel channel4pe18;
 
@@ -46,17 +50,19 @@ public class Robby {
         JDABuilder builder = JDABuilder.createDefault(args[0]);
         builder.setBulkDeleteSplittingEnabled(false);
         builder.setCompression(Compression.NONE);
-        builder.setActivity(Activity.listening("..."));
+        builder.setActivity(Activity.playing("!help"));
 
         this.auditsManager = new AuditsManager(this);
         this.commandManager = new CommandManager(this);
         this.deploymentManager = new DeploymentManager(this);
+        this.pollManager = new PollManager(this);
         this.getDeploymentManager().registerDefaultPatches();
         //OldPatchManager patchManager = new OldPatchManager(this);
 
         //SpecialApril specialApril = new SpecialApril(this);
         SpecialBlindTest specialBlindTest = new SpecialBlindTest(this);
 
+        getCommandManager().addCommand(new PollCommand(this));
         getCommandManager().addCommand(new DebugCommand());
         getCommandManager().addCommand(new DeployCommand(this));
         getCommandManager().addCommand(new DevoirsCommand());
@@ -65,6 +71,7 @@ public class Robby {
         getCommandManager().addCommand(new LearnCommand());
         getCommandManager().addCommand(new GourceCommand());
         getCommandManager().addCommand(new BlindTestCommand(specialBlindTest));
+        getCommandManager().addCommand(new HelpCommand(this));
 
         //getCommandManager().addCommand(new AprilCommand(specialApril));
 
@@ -76,10 +83,14 @@ public class Robby {
         builder.setAutoReconnect(true);
         jdaInstance = builder.build();
         //TODO ne pas oublier !!!
-        openConnection(args[1]);
         System.out.println("Robby by 4PE18 is running.");
         channel4pe18 = jdaInstance.openPrivateChannelById(266208886204137472L).complete();
-        getChannel4pe18().sendMessage("running <:reverse:695374058765680681> !").complete();
+        getChannel4pe18().sendMessage("running !").complete();
+        try {
+            openConnection(args[1]);
+        } catch (SQLException e) {
+            System.err.println("Can't open connection !");
+        }
 
     }
 
@@ -105,7 +116,7 @@ public class Robby {
         return deploymentManager;
     }
 
-    public JDA getJdaInstance() {
+    public static JDA getJdaInstance() {
         return jdaInstance;
     }
 
@@ -115,5 +126,9 @@ public class Robby {
 
     public static void main(String[] args) throws LoginException, PatchAlreadyRegisteredException, PatchNotRegisteredException, PatchAlreadyLoadedException, SQLException {
         (new Robby()).start(args);
+    }
+
+    public PollManager getPollManager() {
+        return pollManager;
     }
 }

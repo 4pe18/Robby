@@ -27,7 +27,7 @@ public class RobbyEmbed {
 
     public RobbyEmbed init() {
         this.getEmbedBuilder().setColor(Color.red);
-        this.getEmbedBuilder().setFooter("Bip. Robby. Bip boup. Je suis un robot.", "https://cdn.discordapp.com/avatars/688391905427456027/e04068c2b59feadbe446fd813b688fa6.png?size=128");
+        this.getEmbedBuilder().setFooter("Bip. Robby. Bip boup. Je suis un robot.", Robby.getJdaInstance().getSelfUser().getAvatarUrl());
         return this;
     }
 
