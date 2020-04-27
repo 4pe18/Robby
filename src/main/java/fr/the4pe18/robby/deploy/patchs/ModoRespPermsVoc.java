@@ -1,7 +1,7 @@
 package fr.the4pe18.robby.deploy.patchs;
 
 import fr.the4pe18.robby.deploy.RobbyPatch;
-import fr.the4pe18.robby.deploy.exceptions.PatchIgnoredException;
+import fr.the4pe18.robby.exceptions.PatchIgnoredException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Role;

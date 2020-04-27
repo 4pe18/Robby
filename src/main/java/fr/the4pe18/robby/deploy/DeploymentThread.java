@@ -2,14 +2,13 @@ package fr.the4pe18.robby.deploy;
 
 import fr.the4pe18.robby.RobbyEmbed;
 import fr.the4pe18.robby.RobbyUtils;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchThreadNotDeploymentThreadException;
+import fr.the4pe18.robby.exceptions.PatchNotLoadedException;
+import fr.the4pe18.robby.exceptions.PatchThreadNotDeploymentThreadException;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * @author 4PE18

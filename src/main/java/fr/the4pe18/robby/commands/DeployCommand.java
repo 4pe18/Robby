@@ -2,15 +2,11 @@ package fr.the4pe18.robby.commands;
 
 import fr.the4pe18.robby.Robby;
 import fr.the4pe18.robby.RobbyEmbed;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
-import fr.the4pe18.robby.old.deploy.patchs.OldModoManageMsg_01;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
+import fr.the4pe18.robby.exceptions.PatchNotLoadedException;
+import fr.the4pe18.robby.exceptions.PatchNotRegisteredException;
 import net.dv8tion.jda.api.entities.*;
 
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * @author 4PE18

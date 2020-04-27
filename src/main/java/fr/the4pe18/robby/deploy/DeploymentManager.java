@@ -1,10 +1,10 @@
 package fr.the4pe18.robby.deploy;
 
 import fr.the4pe18.robby.Robby;
-import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchAlreadyRegisteredException;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotLoadedException;
-import fr.the4pe18.robby.deploy.exceptions.PatchNotRegisteredException;
+import fr.the4pe18.robby.exceptions.PatchAlreadyLoadedException;
+import fr.the4pe18.robby.exceptions.PatchAlreadyRegisteredException;
+import fr.the4pe18.robby.exceptions.PatchNotLoadedException;
+import fr.the4pe18.robby.exceptions.PatchNotRegisteredException;
 import fr.the4pe18.robby.deploy.patchs.DemoPatch;
 import fr.the4pe18.robby.deploy.patchs.DemoPatch2;
 import fr.the4pe18.robby.deploy.patchs.ModoRespPerms;

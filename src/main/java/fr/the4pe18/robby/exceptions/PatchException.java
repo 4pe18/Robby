@@ -1,4 +1,4 @@
-package fr.the4pe18.robby.deploy.exceptions;
+package fr.the4pe18.robby.exceptions;
 
 /**
  * @author 4PE18

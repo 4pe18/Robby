@@ -1,6 +1,6 @@
 package fr.the4pe18.robby.deploy;
 
-import fr.the4pe18.robby.deploy.exceptions.*;
+import fr.the4pe18.robby.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
