@@ -26,8 +26,8 @@ public class RobbyEmbed {
     }
 
     public RobbyEmbed init() {
-        this.getEmbedBuilder().setColor(Color.red);
-        this.getEmbedBuilder().setFooter("Bip. Robby. Bip boup. Je suis un robot.", Robby.getJdaInstance().getSelfUser().getAvatarUrl());
+        this.getEmbedBuilder().setColor(Color.decode("0x7289DA"));
+        this.getEmbedBuilder().setFooter("Made by Robby, powered by 4PE18", Robby.getJdaInstance().getSelfUser().getAvatarUrl());
         return this;
     }
 

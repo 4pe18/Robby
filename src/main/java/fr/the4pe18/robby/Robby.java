@@ -15,7 +15,9 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.Compression;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
 import java.sql.Connection;
@@ -48,6 +50,8 @@ public class Robby {
         JDABuilder builder = JDABuilder.createDefault(args[0]);
         builder.setBulkDeleteSplittingEnabled(false);
         builder.setCompression(Compression.NONE);
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+        builder.enableIntents(GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS));
         builder.setActivity(Activity.playing("!help"));
 
         this.auditsManager = new AuditsManager(this);
@@ -58,7 +62,7 @@ public class Robby {
         //OldPatchManager patchManager = new OldPatchManager(this);
 
         //SpecialApril specialApril = new SpecialApril(this);
-        SpecialBlindTest specialBlindTest = new SpecialBlindTest(this);
+        //SpecialBlindTest specialBlindTest = new SpecialBlindTest(this);
 
         getCommandManager().addCommand(new PollCommand(this));
         getCommandManager().addCommand(new DebugCommand());
@@ -68,8 +72,10 @@ public class Robby {
         getCommandManager().addCommand(new ClearCommand());
         getCommandManager().addCommand(new LearnCommand());
         getCommandManager().addCommand(new GourceCommand());
-        getCommandManager().addCommand(new BlindTestCommand(specialBlindTest));
+        //getCommandManager().addCommand(new BlindTestCommand(specialBlindTest));
         getCommandManager().addCommand(new HelpCommand(this));
+        getCommandManager().addCommand(new PresenceCommand());
+        getCommandManager().addCommand(new MeCommand());
 
         //getCommandManager().addCommand(new AprilCommand(specialApril));
 
@@ -80,7 +86,6 @@ public class Robby {
         //builder.addEventListeners(specialApril);
         builder.setAutoReconnect(true);
         jdaInstance = builder.build();
-        //TODO ne pas oublier !!!
         System.out.println("Robby by 4PE18 is running.");
         channel4pe18 = jdaInstance.openPrivateChannelById(266208886204137472L).complete();
         getChannel4pe18().sendMessage("running !").complete();
