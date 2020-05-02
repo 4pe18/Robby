@@ -27,8 +27,8 @@ public class Poll {
         this.author = author;
         this.question = question;
         this.message = channel.sendMessage(new RobbyEmbed("Sondage", "génération").setColor(YELLOW).build()).complete();
-        message.addReaction(Emoji.WHITE_CHECK_MARK.getUtf8()).complete();
-        message.addReaction(Emoji.X.getUtf8()).complete();
+        message.addReaction("yes_light:705019068154904617").complete();
+        message.addReaction("no_light:705019039251955734").complete();
         this.channel = channel;
         this.yes = 0;
         this.no = 0;
@@ -49,8 +49,8 @@ public class Poll {
         embed.setAuthor(author.getNickname(), author.getUser().getAvatarUrl());
         embed.setThumbnail("https://i.ibb.co/yBM0H2k/3e531d8e171629e9433db0bb431b2e12.png");
         embed.addField("Salon", channel.getName(), false);
-        embed.addField(Emoji.WHITE_CHECK_MARK.getUtf8() + " Oui", yes.toString(), true);
-        embed.addField(Emoji.X.getUtf8() + " Non", no.toString(), true);
+        embed.addField("<:yes:705017799554236536>" + " Oui", yes.toString(), true);
+        embed.addField("<:no:705017781556346950>" + " Non", no.toString(), true);
         embed.setImage(getPieUrl());
         embed.setColor(yes > no ? GREEN : yes < no ? RED : YELLOW);
         this.message.editMessage(embed.build()).complete();
@@ -61,30 +61,33 @@ public class Poll {
     }
 
     public void proceed(MessageReactionAddEvent event) {
-        if (event.getReactionEmote().getEmoji().equalsIgnoreCase(Emoji.WHITE_CHECK_MARK.getUtf8())) {
-            message.retrieveReactionUsers(Emoji.X.getUtf8()).queue(users -> {
+        if (event.getReactionEmote().isEmote() && event.getReactionEmote().getEmote().getId().equalsIgnoreCase("705019068154904617")) {
+            message.retrieveReactionUsers("no_light:705019039251955734").queue(users -> {
                 if (users.contains(event.getUser())) {
-                    message.removeReaction(Emoji.X.getUtf8(), event.getUser()).queue();
+                    message.removeReaction("no_light:705019039251955734", event.getUser()).queue();
                 }
             });
             yes++;
             updateMessage();
-        } else if (event.getReactionEmote().getEmoji().equalsIgnoreCase(Emoji.X.getUtf8())) {
-            message.retrieveReactionUsers(Emoji.WHITE_CHECK_MARK.getUtf8()).queue(users -> {
+        } else if (event.getReactionEmote().isEmote() && event.getReactionEmote().getEmote().getId().equalsIgnoreCase("705019039251955734")) {
+            message.retrieveReactionUsers("yes_light:705019068154904617").queue(users -> {
                 if (users.contains(event.getUser())) {
-                    message.removeReaction(Emoji.WHITE_CHECK_MARK.getUtf8(), event.getUser()).queue();
+                    message.removeReaction("yes_light:705019068154904617", event.getUser()).queue();
                 }
             });
             no++;
             updateMessage();
-        } else message.removeReaction(event.getReactionEmote().getEmoji(), Objects.requireNonNull(event.getUser())).complete();
+        } else {
+            if (event.getReactionEmote().isEmote()) message.removeReaction(event.getReactionEmote().getEmote(), Objects.requireNonNull(event.getUser())).complete();
+            else message.removeReaction(event.getReactionEmote().getEmoji(), Objects.requireNonNull(event.getUser())).complete();
+        }
     }
 
     public void proceed(MessageReactionRemoveEvent event) {
-        if (event.getReactionEmote().getEmoji().equalsIgnoreCase(Emoji.WHITE_CHECK_MARK.getUtf8())) {
+        if (event.getReactionEmote().isEmote() && event.getReactionEmote().getEmote().getId().equalsIgnoreCase("705019068154904617")) {
             yes--;
             updateMessage();
-        } else if (event.getReactionEmote().getEmoji().equalsIgnoreCase(Emoji.X.getUtf8())) {
+        } else if (event.getReactionEmote().isEmote() && event.getReactionEmote().getEmote().getId().equalsIgnoreCase("705019039251955734")) {
             no--;
             updateMessage();
         }
