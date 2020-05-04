@@ -88,7 +88,7 @@ public class Robby {
         jdaInstance = builder.build();
         System.out.println("Robby by 4PE18 is running.");
         channel4pe18 = jdaInstance.openPrivateChannelById(266208886204137472L).complete();
-        getChannel4pe18().sendMessage("running !").complete();
+        getChannel4pe18().sendMessage("Running !").complete();
         try {
             openConnection(args[1]);
         } catch (SQLException e) {
